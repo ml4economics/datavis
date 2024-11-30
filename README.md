@@ -1,5 +1,8 @@
 # Binder
 
+### Quantilplots
+- Jupyter Notebook : [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/ml4economics/datavis/HEAD?labpath=jupyter%2FQuantilplots.ipynb)
+
 ### qqplot
 - Jupyter Notebook : [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/ml4economics/datavis/HEAD?labpath=jupyter%2Fqqplot_examples.ipynb)
 
