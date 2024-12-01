@@ -8,6 +8,17 @@ mahalanobis1 <- function(count) {
   list(df = df, distances = distances[1:10])
 }
 
+# wenn man die Distanzen nicht quadriert, bekommt man die
+# https://en.wikipedia.org/wiki/Half-normal_distribution
+# deren Mittelwert ist E[|X|] = sqrt(2/pi) * sigma ~ 0.7979 * sigma
+half_normal <- function(count) {
+  data <- rnorm(count)
+  mean_data <- mean(data)
+  sd_data <- sd(data)
+  distances = abs(data - mean_data) / sd_data
+  mean(distances)
+}
+
 mahalanobis2 <- function(count) {
   x <- 1:count+rnorm(count)
   y <- 1:count+rnorm(count,1,3)
