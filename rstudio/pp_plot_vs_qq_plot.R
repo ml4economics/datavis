@@ -2,7 +2,8 @@ x <- seq(-10, 10, length.out = 100)
 mu <- 0  
 sd_values <- c(0.5, 1, 2) 
 
-# Create a data frame with densitiesplot_data <- data.frame(
+# Create a data frame with densities
+plot_data <- data.frame(
   x = rep(x, times = length(sd_values)),
   y = c(dnorm(x, mean = mu, sd = sd_values[1]),
         dnorm(x, mean = mu, sd = sd_values[2]),
@@ -15,7 +16,7 @@ ggplot(plot_data, aes(x = x, y = y, color = sd)) +
   xlab("Wert") +
   ylab("Dichte") +
   theme_minimal() +
-  scale_color_discrete(name = "Standardabweichung")")
+  scale_color_discrete(name = "Standardabweichung")
 
 plot_data <- data.frame(
   x = rep(x, times = length(sd_values)),
