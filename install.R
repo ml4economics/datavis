@@ -1,5 +1,6 @@
 install.packages("ggplot2")
-install.packages("car")
-install.packages("qqtest")
+install.packages("qqplotr")
 install.packages("repr")
 install.packages("patchwork")
+install.packages("car")
+install.packages("qqtest")
