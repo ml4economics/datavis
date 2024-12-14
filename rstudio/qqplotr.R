@@ -14,7 +14,7 @@ dparams <- list(df = 10)
 
 smp <- data.frame(samples = distribution(100))
 
-create_ggplot(data, dname, dparams) <- function(data, dname, dparams, title) {
+create_ggplot <- function(data, dname, dparams, title) {
   ggplot(data = data, mapping = aes(sample = samples)) +
     stat_qq_band(distribution=dname, dparams = dparams, fill = "lightblue", alpha = 0.5) +
     stat_qq_line(distribution=dname, dparams = dparams) +
