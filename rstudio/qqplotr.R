@@ -14,15 +14,22 @@ dparams <- list(df = 10)
 
 smp <- data.frame(samples = distribution(100))
 
-gg <- ggplot(data = smp, mapping = aes(sample = samples)) +
-  stat_qq_band(distribution=dname, dparams = dparams, fill = "lightblue", alpha = 0.5) +
-  stat_qq_line(distribution=dname, dparams = dparams) +
-  stat_qq_point(distribution=dname, dparams = dparams) +
-  ggtitle("QQ Plot with Chi-Squared Distribution (df = 10)") +
-  labs(x = "Theoretische Quantile", y = "Stichprobenquantile") +
-  theme(
-    plot.title = element_text(hjust = 0.5)
-  )  
+create_ggplot(data, dname, dparams) <- function(data, dname, dparams, title) {
+  ggplot(data = data, mapping = aes(sample = samples)) +
+    stat_qq_band(distribution=dname, dparams = dparams, fill = "lightblue", alpha = 0.5) +
+    stat_qq_line(distribution=dname, dparams = dparams) +
+    stat_qq_point(distribution=dname, dparams = dparams) +
+    ggtitle(title) +
+    labs(x = "Theoretische Quantile", y = "Stichprobenquantile") +
+    theme(
+      plot.title = element_text(hjust = 0.5)
+    )  
+}
+
+gg <- create_ggplot(smp, 
+                    dname, 
+                    dparams, 
+                    "QQ Plot with Chi-Squared Distribution (df = 10)") 
 
 gg
 
