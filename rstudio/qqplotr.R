@@ -14,16 +14,23 @@ dparams <- list(df = 10)
 
 smp <- data.frame(samples = distribution(100))
 
-create_ggplot <- function(data, dname, dparams, title) {
-  ggplot(data = data, mapping = aes(sample = samples)) +
-    stat_qq_band(distribution=dname, dparams = dparams, fill = "lightblue", alpha = 0.5) +
-    stat_qq_line(distribution=dname, dparams = dparams) +
-    stat_qq_point(distribution=dname, dparams = dparams) +
-    ggtitle(title) +
-    labs(x = "Theoretische Quantile", y = "Stichprobenquantile") +
-    theme(
-      plot.title = element_text(hjust = 0.5)
-    )  
+add_qq_band <- function(gg, distribution, dname, dparams, conf, alpha = 0.5) {
+  gg + stat_qq_band(distribution=dname, dparams = dparams, conf=conf, mapping = aes(fill = as.character(conf)), alpha = alpha)
+}
+
+create_ggplot <- function(data, dname, dparams, title, conflevels = c(0.99, 0.95, 0.90)) {
+  gg <- ggplot(data = data, mapping = aes(sample = samples))
+  for (conf in conflevels) {
+    gg <- add_qq_band(gg, distribution, dname, dparams, conf)
+  }  
+  gg <- gg + stat_qq_line(distribution=dname, dparams = dparams) 
+  gg <- gg + stat_qq_point(distribution=dname, dparams = dparams)
+  gg <- gg + scale_fill_discrete("Confidence Level")
+  gg <- gg + 
+         labs(x = "Theoretische Quantile", y = "Stichprobenquantile") +
+         ggtitle(title) +
+         theme(plot.title = element_text(hjust = 0.5))
+  gg
 }
 
 gg <- create_ggplot(smp, 
