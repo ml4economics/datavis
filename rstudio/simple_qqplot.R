@@ -33,7 +33,10 @@ illustrate_qqplot <- function(x_low, x_high,
   
   ref_quantiles <- ref_qfunc(ref_prob)
   test_quantiles <- test_qfunc(ref_prob)
-  qq_data <- data.frame(x = ref_quantiles, y = test_quantiles)
+  first_index <- which(test_quantiles > x_low)[1]
+  below_x_high <- which(test_quantiles < x_high)
+  last_index <- below_x_high[length(below_x_high)]
+  qq_data <- data.frame(x = ref_quantiles[first_index:last_index], y = test_quantiles[first_index:last_index])
   
   # Create four example plots
   plot1 <- create_plot(test_data, "p", "x", "blue", test_distribution)
