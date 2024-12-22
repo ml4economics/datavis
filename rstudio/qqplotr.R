@@ -74,6 +74,11 @@ create_norm_ggplots <- function(sample_func, conflevels = c(0.95), count = 6) {
   multi_sample_plot
 }
 
-composite_plot <- create_norm_ggplots(partial_func(rt, df = 3))
+composite_plot1 <- create_norm_ggplots(partial_func(rt, df = 3))
 
-print(composite_plot)
+print(composite_plot1)
+
+composite_plot2 <- create_norm_ggplots(partial_func(rt, df = 3), conf_levels(c(0.95, 0.99)), count=1)
+
+print(composite_plot2)
+
