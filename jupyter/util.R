@@ -21,14 +21,17 @@ empty_plot <- function() {
   ggplot() + theme_void() + theme(aspect.ratio = 1)
 }
 
+theme_squared <- function() {
+  theme(aspect.ratio = 1)
+}
+
 rstudio_theme <- function() {
-  theme(aspect.ratio = 1, plot.title = element_text(hjust = 0.5))
+  theme(plot.title = element_text(hjust = 0.5))
 }
 
 jupyter_theme <- function() {
   theme_bw() +
-  theme(aspect.ratio = 1,
-        axis.title = element_text(size = 15, color = "black"),        
+  theme(axis.title = element_text(size = 15, color = "black"),        
         axis.text = element_text(size = 12, color = "black"),
         legend.title = element_text(size = 20, color = "black"),
         legend.text = element_text(size = 17, color = "black"),
