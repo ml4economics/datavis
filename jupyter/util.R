@@ -1,5 +1,6 @@
 library(ggplot2)
 library(patchwork)
+library(qqplotr, quietly = TRUE)
 
 partial_func <- function(func, ...) {
   fixed_args <- list(...)

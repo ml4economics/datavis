@@ -7,7 +7,6 @@
 
 ### ToDos
 - qqtest : [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/ml4economics/datavis/HEAD?labpath=jupyter%2Fqqtest.ipynb)
-- ggplot2/qqplotr : [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/ml4economics/datavis/HEAD?labpath=jupyter%2Fqqplotr.ipynb)
 
 ### RStudio
 [![Binder](http://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/ml4economics/datavis/HEAD?urlpath=rstudio)

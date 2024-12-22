@@ -45,7 +45,7 @@ illustrate_qqplot <- function(x_low, x_high,
   test_cdf <- simple_ggplot(test_data, "p", "x", test_color, "Testverteilung") + theme
   ref_cdf <- simple_ggplot(ref_data, "x", "p", ref_color, "Referenzverteilung") + theme
   
-  qq_plot <- create_plot(qq_data, NULL, NULL, "black", "QQ-Plot")
+  qq_plot <- simple_ggplot(qq_data, NULL, NULL, "black", "QQ-Plot")
   qq_plot <- qq_plot + geom_abline(intercept = 0, slope = 1, color = "red", linetype = "dashed")
   qq_plot <- qq_plot + theme
   

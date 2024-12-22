@@ -1,5 +1,4 @@
-library(ggplot2)
-library(patchwork)
+source("../jupyter/util.R")
 
 mu <- 0  
 sd_values <- c(0.5, 1, 2) 
