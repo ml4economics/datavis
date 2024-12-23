@@ -67,3 +67,5 @@ p3_themed <- p3 + plot_theme
 gg <- p1_themed / (p2_themed + p3_themed) + plot_layout(guides = 'collect')
 
 print(gg)
+
+ggsave(filename = tex_figures_path("pp_plot_vs_qq_plot.png"), plot = gg, width = 8, height = 6, dpi = 300)
