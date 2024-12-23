@@ -1,24 +1,30 @@
-library(quantmod)
 library(forecast)
+library(quantmod)
 library(patchwork)
 library(ggplot2)
 library(qqplotr)
 
-# Retrieve CPI inflation data from FRED
-cpi_data <- getSymbols("CPIAUCNS", src = "FRED", from='1971-01', to='2016-12', auto.assign = FALSE)
+# Get daily stock data for Apple Inc. (AAPL)
+getSymbols("AAPL", src = "yahoo", from = "2010-01-01", to = "2023-12-31")
 
-# Calculate the inflation rate
-inflation_rate <- diff(log(cpi_data))[-1] * 400
-quarterly_inflation_rate <- apply.quarterly(inflation_rate, mean)
+# Extract the closing prices
+aapl_data <- Cl(AAPL)
 
-# Fit an ARMA(1,1) model
-arima_model <- Arima(quarterly_inflation_rate, method = "ML", order = c(1, 0, 1))
+# Convert to xts object
+aapl_ts <- xts(aapl_data, order.by = index(aapl_data))
+
+# Plot the time series
+plot(aapl_ts, main = "AAPL Daily Closing Prices", xlab = "Date", ylab = "Closing Price", col = "blue")
+
+# Fit ARIMA model
+arima_model <- auto.arima(aapl_ts)
+
 summary(arima_model)
 
 # Extract residuals from the fitted model
 residuals <- residuals(arima_model)
 
-residuals_df <- data.frame(Date = as.Date(index(quarterly_inflation_rate)), 
+residuals_df <- data.frame(Date = as.Date(index(aapl_ts)), 
                            Residuals = as.numeric(residuals))
 
 # Create Time Series Plot of Residuals
@@ -38,7 +44,8 @@ acf_plot <- ggAcf(residuals, lag.max = 10) +
 
 # Create Histogram of Residuals
 hist_plot <- ggplot(residuals_df, aes(x = Residuals)) +
-  geom_histogram(binwidth = 0.5, fill = "green", color = "black", alpha = 0.7) +
+  geom_histogram(aes(y = after_stat(count/sum(count))), binwidth = 0.5, fill = "green", color = "black", alpha = 0.7) +
+  stat_function(fun = dnorm, color = "blue") +
   ggtitle("Histogram of Residuals") +
   xlab("Residuals") +
   ylab("Frequency") +
@@ -50,7 +57,7 @@ hist_plot <- ggplot(residuals_df, aes(x = Residuals)) +
 
 # Create a Q-Q plot of the residuals
 qqplot <- ggplot(residuals_df, aes(sample = Residuals)) +
-  stat_qq_band(band_type = "ell", mapping = aes(fill = "red", alpha = 0.5), show.legend = FALSE) +
+  stat_qq_band(bandType = "ell", mapping = aes(fill = "red", alpha = 0.5), show.legend = FALSE) +
   stat_qq_point() +
   stat_qq_line() +
   geom_abline(intercept = 0, slope = 1, color = "red", linetype = "dashed") +
@@ -63,5 +70,4 @@ qqplot <- ggplot(residuals_df, aes(sample = Residuals)) +
 # Display all plots
 combined <- (ts_plot | acf_plot) / (hist_plot | qqplot)
 print(combined)
-
 
