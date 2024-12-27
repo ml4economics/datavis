@@ -3,6 +3,7 @@ library(forecast)
 library(patchwork)
 library(ggplot2)
 library(qqplotr)
+library(fpp3)
 
 # Retrieve CPI inflation data from FRED
 cpi_data <- getSymbols("CPIAUCNS", src = "FRED", from='1971-01', to='2016-12', auto.assign = FALSE)
@@ -10,16 +11,19 @@ cpi_data <- getSymbols("CPIAUCNS", src = "FRED", from='1971-01', to='2016-12', a
 # Calculate the inflation rate
 inflation_rate <- diff(log(cpi_data))[-1] * 400
 quarterly_inflation_rate <- apply.quarterly(inflation_rate, mean)
+quarters <- yearquarter(zoo::index(quarterly_inflation_rate))
+df <- data.frame(quarter=quarters, coredata(quarterly_inflation_rate$'CPIAUCNS'))
+tsibble_data <- as_tsibble(df, index = quarter)
 
 # Fit an ARMA(1,1) model
-arima_model <- Arima(quarterly_inflation_rate, method = "ML", order = c(1, 0, 1))
-summary(arima_model)
+fit_cpi <- tsibble_data |> model(ARIMA(CPIAUCNS))
+report(fit_cpi)
 
 # Extract residuals from the fitted model
-residuals <- residuals(arima_model)
+residuals <- residuals(fit_cpi)
 
-residuals_df <- data.frame(Date = as.Date(index(quarterly_inflation_rate)), 
-                           Residuals = as.numeric(residuals))
+residuals_df <- data.frame(Date = df$quarter, 
+                           Residuals = as.numeric(residuals$.resid))
 
 # Create Time Series Plot of Residuals
 ts_plot <- ggplot(residuals_df, aes(x = Date, y = Residuals)) +
