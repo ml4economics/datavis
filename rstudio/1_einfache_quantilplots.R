@@ -1,14 +1,17 @@
 source("../jupyter/util.R")
 
-single_plot <- function(data, color, title, aspect_ratio=1) {
+single_plot <- function(data, color, title = NULL, aspect_ratio=1) {
   gg <- ggplot(data, aes(x = x, y = y)) +
     geom_line(color = color) +
-    labs(x = NULL, y = NULL) +   
-    ggtitle(title) +
-    theme_bw() +    
-    theme(plot.title = element_text(size=20, color = "black", hjust = 0.5), 
-          axis.text = element_text(size = 12, color = "black"),
-          aspect.ratio=aspect_ratio)
+    labs(x = NULL, y = NULL)
+  if ( !is.null(title) ) {
+    gg <- gg + ggtitle(title)
+  }
+  
+  gg <- gg +theme_bw() +    
+       theme(plot.title = element_text(size=15, color = "black", hjust = 0.5), 
+            axis.text = element_text(size = 10, color = "black"),
+            aspect.ratio=aspect_ratio)
 }
 
 combined_plot <- function(distribution, pdf_data, cdf_data, quantile_data) {
@@ -17,7 +20,7 @@ combined_plot <- function(distribution, pdf_data, cdf_data, quantile_data) {
   quantile_graph <- single_plot(quantile_data, "red", "Quantilplot")
   
   (pdf_graph | cdf_graph | quantile_graph) +
-    plot_annotation( title = distribution, theme = theme(plot.title = element_text(size = 30, hjust = 0.5) ) )
+    plot_annotation( title = distribution, theme = theme(plot.title = element_text(size = 20, hjust = 0.5) ) )
 }
 
 combined_plot2 <- function(distribution, x, dfunc, pfunc, qfunc) {
@@ -30,19 +33,25 @@ combined_plot2 <- function(distribution, x, dfunc, pfunc, qfunc) {
 }
 
 # Beispiel 1 : Normalverteilung
-combined_plot2("Normalverteilung", 
-               x <- seq(-3, 3, length=100), 
-               dnorm, 
-               pnorm, 
-               qnorm)
+qplot_normal = combined_plot2(NULL, 
+                              x <- seq(-3, 3, length=100), 
+                              dnorm, 
+                              pnorm, 
+                              qnorm)
+
+print(qplot_normal)
+ggsave(filename = tex_figures_path("qplot_normal.png"), plot = qplot_normal)
 
 # Beispiel 2 : Chi-Quadrat-Verteilung - Rechtsschief
 df <- 5
-combined_plot2(sprintf("Chi-Quadrat-Verteilung df=%d",df), 
-               seq(0, 20, length=100), 
-               partial_func(dchisq, df=df), 
-               partial_func(pchisq, df=df),  
-               partial_func(qchisq, df=df))
+qplot_chi_square <- combined_plot2(NULL, 
+                                   seq(0, 20, length=100), 
+                                   partial_func(dchisq, df=df), 
+                                   partial_func(pchisq, df=df),  
+                                   partial_func(qchisq, df=df))
+
+print(qplot_chi_square)
+ggsave(filename = tex_figures_path("qplot_chi_square.png"), plot = qplot_chi_square)
 
 # Beispiel 3 : Mischverteilung
 mu1 <- 0
@@ -78,5 +87,7 @@ p <- seq(0, 1, length=100)
 quantile_data <- data.frame(x = p, y = quantile(mixture_data, p))
 
 # Plot
-combined_plot("Summe von Normalverteilungen", pdf_data, cdf_data, quantile_data)
+qplot_bimodal <- combined_plot(NULL, pdf_data, cdf_data, quantile_data)
+print(qplot_bimodal)
+ggsave(filename = tex_figures_path("qplot_bimodal.png"), plot = qplot_bimodal)
 
