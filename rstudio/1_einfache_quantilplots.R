@@ -20,7 +20,8 @@ combined_plot <- function(distribution, pdf_data, cdf_data, quantile_data) {
   quantile_graph <- single_plot(quantile_data, "red", "Quantilplot")
   
   (pdf_graph | cdf_graph | quantile_graph) +
-    plot_annotation( title = distribution, theme = theme(plot.title = element_text(size = 20, hjust = 0.5) ) )
+    plot_annotation(title = distribution, 
+                    theme = theme(plot.title = element_text(size = 20, hjust = 0.5)))
 }
 
 combined_plot2 <- function(distribution, x, dfunc, pfunc, qfunc) {

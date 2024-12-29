@@ -1,6 +1,8 @@
 library(ggplot2)
 library(patchwork)
-library(qqplotr, quietly = TRUE)
+suppressMessages({
+    library(qqplotr)
+})
 
 partial_func <- function(func, ...) {
   fixed_args <- list(...)
@@ -32,9 +34,9 @@ rstudio_theme <- function() {
 
 jupyter_theme <- function() {
   theme_bw() +
-  theme(axis.title = element_text(size = 15, color = "black"),        
-        axis.text = element_text(size = 12, color = "black"),
-        legend.title = element_text(size = 20, color = "black"),
-        legend.text = element_text(size = 17, color = "black"),
-        plot.title = element_text(size=20, color = "black", hjust = 0.5))
+  theme(axis.title = element_text(size = 20, color = "black"),        
+        axis.text = element_text(size = 15, color = "black"),
+        legend.title = element_text(size = 30, color = "black"),
+        legend.text = element_text(size = 25, color = "black"),
+        plot.title = element_text(size=30, color = "black", hjust = 0.5))
 }
