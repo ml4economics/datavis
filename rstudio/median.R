@@ -15,7 +15,7 @@ density_plot <- ggplot(density_data, aes(x = x, y = y)) +
   geom_vline(xintercept = median, linetype = "dashed", color = "blue") +
   geom_vline(xintercept = mean, linetype = "dashed", color = "red") +
   annotate("text", x = median, y = 0.03, label = "Median", hjust = 1.1, color = "blue", size=3.5) +
-  annotate("text", x = mean, y = 0.03, label = "Mittelwert", hjust = -0.1, color = "red", size=3.5) +
+  annotate("text", x = mean, y = 0.01, label = "Erwartungswert", hjust = -0.1, color = "red", size=3.5) +
   labs(title="Dichte", x = "x", y = "p") +
   theme(aspect.ratio=0.7, plot.title = element_text(hjust = 0.5))
 
@@ -24,7 +24,7 @@ cdf_plot <- ggplot(cdf_data, aes(x = x, y = y)) +
   geom_vline(xintercept = median, color = "blue", linetype = "dashed") +
   geom_vline(xintercept = mean, color = "red", linetype = "dashed") +
   annotate("text", x = median, y = 0.75, label = "Median", hjust = 1.1, color = "blue", size=3.5) +
-  annotate("text", x = mean, y = 0.25, label = "Mittelwert", hjust = -0.1, color = "red", size=3.5) +
+  annotate("text", x = mean, y = 0.25, label = "Erwartungswert", hjust = -0.1, color = "red", size=3.5) +
   geom_hline(yintercept = 0.5, linetype = "dashed") +
   labs(title="Verteilung", x = "x", y = "p") +
   theme(aspect.ratio=0.7, plot.title = element_text(hjust = 0.5))
