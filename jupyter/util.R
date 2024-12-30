@@ -1,8 +1,6 @@
 library(ggplot2)
 library(patchwork)
-suppressMessages({
-    library(qqplotr)
-})
+suppressMessages({library(qqplotr)})
 
 partial_func <- function(func, ...) {
   fixed_args <- list(...)
@@ -28,15 +26,19 @@ theme_squared <- function() {
   theme(aspect.ratio = 1)
 }
 
-rstudio_theme <- function() {
-  theme(plot.title = element_text(hjust = 0.5))
+theme_centered_title <- function(size=30) {
+  theme(plot.title = element_text(size=size, , color = "black", hjust = 0.5))
 }
 
-jupyter_theme <- function() {
+theme_text <- function(axis_title=25, legend_title=30) {
+  theme(axis.title = element_text(size = axis_title, color = "black"),        
+        axis.text = element_text(size = axis_title-5, color = "black"),
+        legend.title = element_text(size = legend_title, color = "black"),
+        legend.text = element_text(size = legend_title-5, color = "black"))
+}
+
+theme_jupyter <- function() {
   theme_bw() +
-  theme(axis.title = element_text(size = 20, color = "black"),        
-        axis.text = element_text(size = 15, color = "black"),
-        legend.title = element_text(size = 30, color = "black"),
-        legend.text = element_text(size = 25, color = "black"),
-        plot.title = element_text(size=30, color = "black", hjust = 0.5))
+  theme_centered_title() +
+  theme_text()
 }

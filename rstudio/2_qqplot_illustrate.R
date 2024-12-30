@@ -57,7 +57,7 @@ illustrate_qqnorm <- function(test_distribution, test_dfunc, test_pfunc, test_qf
   illustrate_qqplot(-3, 3,
                     "Standardnormalverteilung", dnorm, pnorm, qnorm, 
                     test_distribution, test_dfunc, test_pfunc, test_qfunc,
-                    rstudio_theme() + theme_squared())
+                    theme_centered_title(size=20) + theme_squared())
 }
 
 qqnorm_t_distribution <- function(df) {
