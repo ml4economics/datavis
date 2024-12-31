@@ -8,10 +8,10 @@ single_plot <- function(data, color, title = NULL, aspect_ratio=1) {
     gg <- gg + ggtitle(title)
   }
   
-  gg <- gg +theme_bw() +    
-       theme(plot.title = element_text(size=15, color = "black", hjust = 0.5), 
-            axis.text = element_text(size = 10, color = "black"),
-            aspect.ratio=aspect_ratio)
+  gg <- gg + theme_bw() +    
+             theme(plot.title = element_text(size=15, color = "black", hjust = 0.5), 
+                   axis.text = element_text(size = 10, color = "black"),
+                   aspect.ratio=aspect_ratio)
 }
 
 combined_plot <- function(distribution, pdf_data, cdf_data, quantile_data) {
