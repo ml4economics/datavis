@@ -13,7 +13,7 @@ quantile_data <- data.frame( quantiles = quantiles, values = quantile_values, la
 quantile_data$labels <- gsub("1σ", "σ", quantile_data$labels)
 quantile_data$labels <- gsub("0σ", "0", quantile_data$labels)
 
-# Dichteplott
+# Dichteplot
 dist_plot <- ggplot(data, aes(x = x, y = y)) +
   geom_line(color = "blue") +
   geom_vline(xintercept = quantiles, linetype = "dashed", color = "red") +
@@ -56,4 +56,4 @@ quantile_plot <- ggplot(quantile_data, aes(x = quantiles, y = values)) +
 
 combined_plot <- dist_plot | quantile_plot
 print(combined_plot)
-ggsave(filename = tex_figures_path("quantil_normal.png"), plot = combined_plot)
+ggsave(filename = tex_figures_path("quantil_conf_interval.png"), plot = combined_plot)
