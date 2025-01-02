@@ -41,7 +41,7 @@ qplot_normal = combined_plot2(NULL,
                               qnorm)
 
 print(qplot_normal)
-ggsave(filename = tex_figures_path("qplot_normal.png"), plot = qplot_normal)
+#ggsave(filename = tex_figures_path("qplot_normal.png"), plot = qplot_normal)
 
 # Beispiel 2 : Chi-Quadrat-Verteilung - Rechtsschief
 df <- 5
@@ -52,7 +52,7 @@ qplot_chi_square <- combined_plot2(NULL,
                                    partial_func(qchisq, df=df))
 
 print(qplot_chi_square)
-ggsave(filename = tex_figures_path("qplot_chi_square.png"), plot = qplot_chi_square)
+#ggsave(filename = tex_figures_path("qplot_chi_square.png"), plot = qplot_chi_square)
 
 # Beispiel 3 : Mischverteilung
 mu1 <- 0
@@ -90,5 +90,5 @@ quantile_data <- data.frame(x = p, y = quantile(mixture_data, p))
 # Plot
 qplot_bimodal <- combined_plot(NULL, pdf_data, cdf_data, quantile_data)
 print(qplot_bimodal)
-ggsave(filename = tex_figures_path("qplot_bimodal.png"), plot = qplot_bimodal)
+#ggsave(filename = tex_figures_path("qplot_bimodal.png"), plot = qplot_bimodal)
 

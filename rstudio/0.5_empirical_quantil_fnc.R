@@ -36,8 +36,8 @@ empirical_qplot <- function(data, ticks = TRUE, inc = 1, with_title = TRUE, titl
 set.seed(4711)
 qplot_n_10 <- empirical_qplot(rnorm(10), with_title = FALSE)
 set.seed(4711)
-qplot_n_20 <- empirical_qplot(rnorm(100), with_title = FALSE, inc = 10)
+qplot_n_100 <- empirical_qplot(rnorm(100), with_title = FALSE, inc = 10)
 
-empirical_quantil_fn = qplot_n_10 + qplot_n_20
+empirical_quantil_fn = qplot_n_10 + qplot_n_100
 print(empirical_quantil_fn)
-ggsave(filename = tex_figures_path("empirical_quantil_fnc.png"), plot = empirical_quantil_fn)
+#ggsave(filename = tex_figures_path("empirical_quantil_fnc.png"), plot = empirical_quantil_fn)
