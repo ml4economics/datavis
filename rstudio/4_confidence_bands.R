@@ -12,7 +12,9 @@ add_qq_band <- function(gg,
                     mapping = aes(fill = as.character(conf)), alpha = band_alpha)
 }
 
-create_ggplot <- function(title, data, dname, dparams = list(), 
+create_ggplot <- function(title, 
+                          data, 
+                          dname, dparams = list(), 
                           band_type="ell", 
                           conf_levels = c(0.95),
                           band_alpha = 0.9,

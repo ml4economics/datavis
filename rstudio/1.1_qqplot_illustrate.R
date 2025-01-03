@@ -1,5 +1,8 @@
 source("../jupyter/util.R")
 
+ref_color = "green"
+test_color = "blue"
+
 default_theme <- function() {
   theme_bw() +    
   theme(plot.title = element_text(size=15, color = "black", hjust = 0.5), 
@@ -35,8 +38,7 @@ illustrate_qqplot <- function(test_distribution, test_dfunc, test_pfunc, test_qf
                               ref_qfunc = qnorm,
                               ival = c(-3, 3)) {
   samples <- seq(ival[1], ival[2], length.out = 100)
-  ref_color = "green"
-  test_color = "blue"
+
   densities <- two_func_plot(ref_distribution, ref_dfunc, ref_color,
                              test_distribution, test_dfunc, test_color,
                              ival,
@@ -70,7 +72,7 @@ qqplot_tdist <- illustrate_qqplot(sprintf("t-Verteilung df=%d",df),
                                   partial_func(dt, df=df),
                                   partial_func(pt, df=df),
                                   partial_func(qt, df=df))
-print(qqplot_tdist)
+#print(qqplot_tdist)
 #ggsave(filename = tex_figures_path("qqplot_tdist.png"), plot = qqplot_tdist)
 
 sd1 = 1.5
@@ -85,5 +87,33 @@ qqplot_lognormal <- illustrate_qqplot(sprintf("lognormal σ=%.1f",sd1),
                                       partial_func(qlnorm, sd=sd2),
                                       c(0,3))
                         
-print(qqplot_lognormal)
+#print(qqplot_lognormal)
 #ggsave(filename = tex_figures_path("qqplot_lognormal.png"), plot = qqplot_lognormal)
+
+empirical_qqplot <- function(samples, ref_distribution, ref_dparams, title = NULL) {
+  qq <- ggplot(data = data.frame(samples = samples), mapping = aes(sample = samples))
+  if (!is.null(title)) {
+    qq <- qq + labs(title = title)
+  }    
+  qq <- qq + stat_qq_point(distribution=ref_distribution, dparams = ref_dparams)
+  qq <- qq + geom_abline(intercept = 0, slope = 1, color = "red", linetype = "dashed")
+  qq <- qq + xlab(NULL) + ylab(NULL) 
+  qq <- qq + default_theme()
+  qq <- qq + theme(axis.text.x = element_text(color = ref_color),
+                   axis.text.y = element_text(color = test_color))
+  qq
+}
+
+set.seed(31)
+samples <- rt(50, df = df)
+samples <- samples[samples > -5 & samples < 5]
+qqplot_empirical_tdist <- empirical_qqplot(samples, "norm", list(mean = 0, sd = 1), "t-Verteilung")
+
+set.seed(123)
+samples <- rlnorm(50, sd = sd1)
+samples <- samples[samples < 4]
+qqplot_empirical_lognormal <- empirical_qqplot(samples, "lnorm", list(sd = sd2), "Log-Normalverteilung")
+
+qqplot_empirical_combined = qqplot_empirical_tdist + qqplot_empirical_lognormal
+print(qqplot_empirical_combined)
+ggsave(filename = tex_figures_path("qqplot_empirical.png"), plot = qqplot_empirical_combined)
